@@ -1,16 +1,74 @@
-## Hi there 👋
+# DialogSpy Bot Clone (MVP)
 
-<!--
-**OTRECAL/OTRECAL** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Проект — минимальный каркас для Telegram-бота, который:
 
-Here are some ideas to get you started:
+- мгновенно уведомляет об изменении или удалении сообщений;
+- умеет скачивать медиа с таймером (фото/видео/голосовые/кружки);
+- поддерживает подключение Telegram Business.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+> ⚠️ Важно: используйте только при **явном согласии всех участников**. Любые попытки скрытого мониторинга нарушают правила Telegram и могут быть незаконны.
+
+## Быстрый старт
+
+> Примечание: это не проект на Next.js. Здесь используется Node.js + TypeScript, поэтому `next` в зависимостях отсутствует.
+
+1. Создайте бота через @BotFather и получите `BOT_TOKEN`.
+2. Скопируйте `config/env.example` в `.env` и заполните значения.
+3. Установите зависимости и запустите режим разработки.
+
+```bash
+npm install
+npm run dev
+```
+
+### Как запустить в продакшене
+
+```bash
+npm run build
+npm run start
+```
+
+## Структура
+
+```
+/otrecall-bot
+  /config
+    env.example
+  /src
+    bot.ts          # обработчики сообщений и уведомлений
+    storage.ts      # хранение исходных сообщений
+    media.ts        # таймеры для медиа
+    business.ts     # Telegram Business вебхук
+```
+
+## Как работает
+
+### Отслеживание изменений и удалений
+- `storage.ts` хранит исходный текст сообщений.
+- `bot.ts` сравнивает новые версии и отправляет уведомления о правках.
+- При удалении сообщения отправляется алерт и запись удаляется из хранилища.
+
+### Медиа с таймером
+- `media.ts` планирует удаление файла через TTL.
+- После истечения таймера бот отправляет уведомление, что медиа очищено.
+
+### Telegram Business
+- `business.ts` принимает события и проверяет подпись webhook.
+- Все входящие события могут быть обработаны тем же механизмом логирования.
+
+## Переменные окружения
+
+```
+BOT_TOKEN=replace_me
+DATABASE_URL=postgres://user:pass@localhost:5432/dialogspy
+MEDIA_TTL_SECONDS=3600
+NOTIFY_CHAT_ID=123456789
+BUSINESS_WEBHOOK_SECRET=replace_me
+```
+
+## Следующие шаги
+
+- Подключить реальную библиотеку Telegram Bot API (telegraf, grammy и т.д.).
+- Реализовать постоянное хранилище (PostgreSQL/Redis).
+- Подключить очередь задач для TTL (BullMQ/Redis, RabbitMQ).
+- Добавить API для включения/выключения отслеживания в чатах.

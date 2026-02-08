@@ -1,0 +1,20 @@
+{
+  "name": "dialogspy-clone",
+  "version": "0.1.0",
+  "description": "MVP scaffold for a Telegram bot that tracks edits/deletes and timed media.",
+  "type": "module",
+  "scripts": {
+    "lint": "echo 'no lint configured'",
+    "start": "node dist/bot.js",
+    "build": "tsc -p tsconfig.json",
+    "dev": "ts-node src/bot.ts"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.12",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
